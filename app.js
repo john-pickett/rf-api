@@ -1,18 +1,16 @@
-let a = 3;
-let b = 4;
+const express = require('express');
+const parser = require('./routes/parser.js');
 
-const adder = ((a, b) => {
-    console.log(a + b);
-});
 
-waiter = setTimeout(() => {
-    console.log('hey')
-}, 2000);
+const app = express();
+const port = process.env.port || 3001;
 
-logger = (() => {
-    console.log('hey')
-    setTimeout(() => {
-        console.log('hello')
-    }, 2000)
-    console.log('hi')
-})();
+app.listen(port, () => {
+    console.log(`Started up at ${port}`)
+})
+
+app.get('/', (req, res) => {
+    console.log('/ hit');
+    res.send(parser)
+
+})
