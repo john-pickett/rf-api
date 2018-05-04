@@ -17,7 +17,6 @@ app.use(function(req, res, next) {
   });
 
 app.get('/', (req, res) => {
-    console.log('/ hit');
     res.send(parser)
 
 })
