@@ -39,7 +39,7 @@ app.get('/recipes/:query', (req, res) => {
     let query = req.params.query;
     //Model.find({ $text : { $search : "text to look for" } }, 
 
-    Recipe.find({ $text : { $search: 'chicken'}}).then((recipe) => {
+    Recipe.find({ $text : { $search: query}}).then((recipe) => {
             res.send({recipe})
         }).catch((e) => {
             res.status(400)

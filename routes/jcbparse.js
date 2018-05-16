@@ -13,9 +13,10 @@ fs.readFile(__dirname + '/jocb.xml', function(err, data) {
         parsedData = result.urlset.url;
     });
     console.log('data parsed ');
+    // console.log('one: ' + JSON.stringify(parsedData[0].loc[0]))
     parsedData.forEach((item) =>{
         if (item['image:image']) {
-            console.log('image yay!')
+            // console.log('image yay!')
             mappedRes.push({
                 title: '',
                 url: item.loc[0],
@@ -23,7 +24,7 @@ fs.readFile(__dirname + '/jocb.xml', function(err, data) {
                 image: item['image:image'][0]['image:loc'][0]
             })
         } else {
-            console.log('image no!')
+            // console.log('image no!')
             mappedRes.push({ 
                 title: '', 
                 url: item.loc[0], 
@@ -37,7 +38,7 @@ fs.readFile(__dirname + '/jocb.xml', function(err, data) {
         if (err) {
           console.log(err);
         };
-        console.log(recipe);
+        // console.log(recipe);
     });
 })
 
