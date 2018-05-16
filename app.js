@@ -8,7 +8,7 @@ const {Recipe} = require('./models/recipe');
 
 // const parser = require('./routes/parser.js');
 // const scraper = require('./routes/scraper.js');
-const jcbparse = require('./routes/jcbparse');
+// const jcbparse = require('./routes/jcbparse');
 
 
 const app = express();
