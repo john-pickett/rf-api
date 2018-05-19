@@ -8,8 +8,9 @@ const {Recipe} = require('./models/recipe');
 
 // const parser = require('./routes/parser.js');
 // const scraper = require('./routes/scraper.js');
-// const jcbparse = require('./routes/jcbparse');
-
+// const jcbparse = require('./routes/JOCB/jcbparse');
+const tester = require('./routes/test');
+const parseMe = require('./routes/Simply/simply-xmlparse');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -35,11 +36,11 @@ app.use(function(req, res, next) {
 });
 
 app.get('/recipes/:query', (req, res) => {
-    console.log('query incoming...')
     let query = req.params.query;
+    console.log('query: ' + query);
     //Model.find({ $text : { $search : "text to look for" } }, 
 
-    Recipe.find({ $text : { $search: query}}).then((recipe) => {
+    Recipe.find({ $text : { $search: query }}).then((recipe) => {
             res.send({recipe})
         }).catch((e) => {
             res.status(400)
@@ -64,3 +65,13 @@ app.get('/sites', (req, res) => {
     })
 });
 
+app.get('/test', (req, res) => {
+    tester();
+    res.status(200).send();
+})
+
+app.get('/parse', (req, res) => {
+    console.log('calling parseMe');
+    parseMe();
+    res.status(200).send('ok');
+})

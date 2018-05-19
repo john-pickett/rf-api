@@ -5,16 +5,17 @@ var schema = new mongoose.Schema({
         type: String
     },
     url: {
-        type: [String]
+        type: String
     },
     image: {
         type: String
     },
     lastmod: {
         type: String
-    }
+    },
+    ingredients: []
 });
-schema.index({url: 'text'});
+schema.index({ingredients: 'text'});
 
 var Recipe = mongoose.model('Recipe', schema);
 
