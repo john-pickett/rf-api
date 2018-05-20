@@ -4,6 +4,7 @@ const {Recipe} = require('../../models/recipe');
 const Crawler = require('simplecrawler');
 const cheerio = require('cheerio');
 
+// uses simplecrawler to fetch data from the recipe webpage
 const crawl = (url) => {
     return new Promise((resolve, reject) => {
         var crawler = new Crawler(url);
@@ -26,7 +27,8 @@ const crawl = (url) => {
         Promise.all(recipeInfo)
     });
 }
- 
+
+// parses the xml document and turns it into a javascript object
 const parseMe = () => {
     let parsedData = [];
     let mappedRes = [];
@@ -57,9 +59,12 @@ const parseMe = () => {
         });
         // console.log('mappedRes: ' + JSON.stringify(mappedRes[0]));
         // console.log('mappedRes: ' + JSON.stringify(mappedRes[1]));
-        
+    
+    // calls crawl() for each item in the Mapped Result
         async function getList(input) {
             for (const item of input) {
+
+                // this is where the recipe object is created
                 let recipe = await crawl(item.url)
                 // console.log('getList ings are ' + ingredients);
                 // console.log('recipe ' + JSON.stringify(recipe));
@@ -71,12 +76,13 @@ const parseMe = () => {
             console.log('getList done')
         }
 
+    // saves the finished object into Mongo
         getList(mappedRes).then(() => {
             Recipe.insertMany(mappedRes, function (err, recipe) {
                 if (err) {
                   console.log(err);
                 };
-                console.log('recipe saved!');
+                console.log('recipes saved!');
             });
         })
         
