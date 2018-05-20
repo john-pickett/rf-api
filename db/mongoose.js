@@ -9,7 +9,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/Recipes')
     } else {
         console.log('Connected to MongoDB successfully at ' + process.env.MONGODB_URI);
     }
-
 }, (err) => {
     console.log(`Error: ${err}`);
 });

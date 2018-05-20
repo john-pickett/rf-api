@@ -9,7 +9,7 @@ const {Recipe} = require('./models/recipe');
 // const parser = require('./routes/parser.js');
 // const scraper = require('./routes/scraper.js');
 // const jcbparse = require('./routes/JOCB/jcbparse');
-const tester = require('./routes/test');
+// const tester = require('./routes/test');
 const parseMe = require('./routes/Simply/simply-xmlparse');
 
 const app = express();
