@@ -13,6 +13,9 @@ var schema = new mongoose.Schema({
     lastmod: {
         type: String
     },
+    website: {
+        type: String
+    },
     ingredients: []
 });
 schema.index({ingredients: 'text'});
