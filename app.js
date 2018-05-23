@@ -45,12 +45,20 @@ app.get('/recipes/:query', (req, res) => {
     // console.log('query: ' + query);
     //Model.find({ $text : { $search : "text to look for" } }, 
 
-    Recipe.find({ $text : { $search: query }}).then((recipe) => {
+    Recipe.find({ $text : { $search: query } }, { score: { $meta: "textScore" } })
+    .sort( { score: { $meta: "textScore" } }).then((recipe) => {
             res.send({recipe})
         }).catch((e) => {
             res.status(400)
         });
 
+    /*
+    db.stores.find( { $text: { $search: "java coffee shop" } },
+        { score: { $meta: "textScore" } }
+        ).sort( { score: { $meta: "textScore" } } )
+    */
+
+    
     /*
     "_id": "5afad243ed367850e08b4674",
     "title": "",
