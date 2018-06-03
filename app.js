@@ -130,6 +130,11 @@ app.get('/favorites/:id', (req, res) => {
 
         // we have the recipe IDs
         const favs = user.favorites;
+        // if no favorites for user yet
+        if (!favs.length) {
+            res.status(200).send([]);
+        }
+
         favs.forEach((fav, i) => {
             Recipe.find({
                 '_id': { $in: [
