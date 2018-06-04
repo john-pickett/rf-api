@@ -10,7 +10,15 @@ const {Site} = require('./models/site');
 const {Recipe} = require('./models/recipe');
 const {User} = require('./models/user');
 
-// Routing and Parsing Files
+// *** ElasticSearch ***
+var bonsai_url    = process.env.BONSAI_URL;
+var elasticsearch = require('elasticsearch');
+var client        = new elasticsearch.Client({
+                        host: bonsai_url,
+                        log: 'trace' 
+                    });
+
+//  *** Routing and Parsing Files ***
 // const parser = require('./routes/parser.js');
 // const scraper = require('./routes/scraper.js');
 // const jcbparse = require('./routes/JOCB/jcbparse');
@@ -44,18 +52,35 @@ app.get('/recipes', (req, res) => {
     })
 });
 
+// User search recipes
 app.get('/recipes/:query', (req, res) => {
     let query = req.params.query;
     // console.log('query: ' + query);
     //Model.find({ $text : { $search : "text to look for" } }, 
 
-    Recipe.find({ $text : { $search: query } }, { score: { $meta: "textScore" } })
+    Recipe.find({ $text : { $search: '"' + query + '"' } }, { score: { $meta: "textScore" } })
     .sort( { score: { $meta: "textScore" } }).then((recipe) => {
             res.send({recipe})
         }).catch((e) => {
             res.status(400)
         });
 });
+
+app.get('/bonsai', (req, res) => {
+    
+    // Test the connection:
+    // Send a HEAD request to "/" and allow
+    // up to 30 seconds for it to complete.
+    client.ping({
+      requestTimeout: 30000,
+    }, function (error) {
+      if (error) {
+        console.error('elasticsearch cluster is down!');
+      } else {
+        console.log('All is well');
+      }
+    });
+})
 
 // Site Routes
 app.get('/sites', (req, res) => {
