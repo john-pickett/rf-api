@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const mongoosastic = require('mongoosastic');
 const Schema = mongoose.Schema;
+const esURL = process.env.BONSAI_URL || 'localhost:9200';
 
 const BunnySchema = new Schema({
     name: String,
@@ -10,7 +11,7 @@ const BunnySchema = new Schema({
 
 BunnySchema.plugin(mongoosastic, {
     hosts: [
-        process.env.BONSAI_URL
+        esURL
     ]
 });
 

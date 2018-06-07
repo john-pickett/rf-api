@@ -214,7 +214,8 @@ app.post('/bunny', (req, res) => {
 
 app.get('/bunny/:query', (req, res) => {
     let query = req.params.query;
-
+    console.log('query: ' + query);
+    
     Bunny.search({
         query_string: {
           query: query
