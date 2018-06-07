@@ -8,7 +8,18 @@ const BunnySchema = new Schema({
     cuteness: String
 });
 
-BunnySchema.plugin(mongoosastic);
+BunnySchema.plugin(mongoosastic, {
+    hosts: [
+        process.env.BONSAI_URL
+    ]
+});
+
+// MyModel.plugin(mongoosastic, {
+//     hosts: [
+//       'localhost:9200',
+//       'anotherhost:9200'
+//     ]
+//   })
 
 let Bunny = mongoose.model('Bunny', BunnySchema);
 
