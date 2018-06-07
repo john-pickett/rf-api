@@ -9,6 +9,7 @@ const {ObjectID} = require('mongodb');
 const {Site} = require('./models/site');
 const {Recipe} = require('./models/recipe');
 const {User} = require('./models/user');
+const {Bunny} = require('./models/bunny');
 
 // *** ElasticSearch ***
 var bonsai_url    = process.env.BONSAI_URL;
@@ -195,3 +196,31 @@ app.post('/favorite/user/:userId/recipe/:recipeId', (req, res) => {
     })
 });
 
+// Bunny routes
+app.post('/bunny', (req, res) => {
+    console.log(JSON.stringify(req.body))
+    let bunny = new Bunny({
+        name: req.body.name,
+        age: req.body.age,
+        cuteness: req.body.cuteness
+    })
+    
+    bunny.save().then((doc) => {
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
+});
+
+app.get('/bunny/:query', (req, res) => {
+    let query = req.params.query;
+
+    Bunny.search({
+        query_string: {
+          query: query
+        }
+      }, function(err, results) {
+        // results here
+        res.send(results)
+      });
+})

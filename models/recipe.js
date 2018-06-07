@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const mongoosastic = require('mongoosastic');
 
 var schema = new mongoose.Schema({
     title: {
@@ -20,11 +21,10 @@ var schema = new mongoose.Schema({
 });
 schema.index({ingredients: 'text'});
 
-var Recipe = mongoose.model('Recipe', schema);
+const Recipe = mongoose.model('Recipe', schema);
+// Recipe.plugin(mongoosastic);
 
 module.exports = {Recipe};
 
 
 
-// var schema = new mongoose.Schema({ name: 'string', size: 'string' });
-// var Tank = mongoose.model('Tank', schema);

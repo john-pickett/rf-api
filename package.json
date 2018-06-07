@@ -16,6 +16,7 @@
     "elasticsearch": "^15.0.0",
     "express": "^4.16.3",
     "moment": "^2.22.1",
+    "mongoosastic": "^4.4.1",
     "mongoose": "^5.1.0",
     "nodemon": "^1.17.3",
     "request": "^2.85.0",
