@@ -48,17 +48,26 @@ const crawl = () => {
         setInterval(() => {
             console.log("** Stats ** ");
             crawler.queue.countItems({ fetched: true }, function(error, count) {
-                console.log("Completed items: %d", count);
+                console.log('    Completed items: %d', count);
             });
-            console.log('Items in queue: ' + crawler.queue.length);
-        }, 60000);
+            console.log('    Items in queue: ' + crawler.queue.length);
+        }, 1200000);
 
         crawler.downloadUnsupported = false;
         crawler.decodeResponses = true;
         crawler.interval = 1000;
 
-        crawler.addFetchCondition(function(queueItem) {
-            return !queueItem.path.match(/\.(zip|jpe?g|png|mp4|gif|css|pdf|xml)$/i);
+        // crawler.addFetchCondition(function(queueItem) {
+        //     return !queueItem.path.match(/\.(zip|jpe?g|png|mp4|gif|css|pdf|xml)$/i);
+        // });
+
+        crawler.addFetchCondition((parsedURL) => {
+            if (parsedURL.path.match(/\.(css|jpe?g|pdf|docx|js|png|ico|zip|mp4|gif|xml)/i)) {
+                // console.log("Not fetching " + parsedURL.path);
+                return false;
+            }
+        
+            return true;
         });
 
         crawler.on("crawlstart", function() {
