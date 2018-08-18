@@ -123,7 +123,7 @@ const crawl = () => {
                                         masterRecipes.push(currentRecipe);
                                         console.log('Current recipe count: ' + masterRecipes.length);
                                         
-                                        if (masterRecipes.length >= 5) {
+                                        if (masterRecipes.length >= 50) {
                                             // console.log(JSON.stringify(masterRecipes))
                                             let crawlPause = new Date();
                                             console.log('crawling paused at ' + crawlPause);
