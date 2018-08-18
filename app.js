@@ -26,6 +26,7 @@ var client        = new elasticsearch.Client({
 const tester = require('./routes/test');
 const parseSimply = require('./routes/Simply/simply-xmlparse');
 const parseJocb = require('./routes/JOCB/jocbparse');
+const jocb = require('./routes/JOCB/jocb-schema');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -33,7 +34,9 @@ const port = process.env.PORT || 3001;
 app.use(bodyParser.json());
 
 app.listen(port, () => {
-    console.log(`Started up at ${port}`)
+    console.log(`Started up at ${port}`);
+    jocb.jocb.crawl();
+    // console.log(jocb)
 })
 
 app.use(function(req, res, next) {
@@ -65,6 +68,37 @@ app.get('/recipes/:query', (req, res) => {
         }).catch((e) => {
             res.status(400)
         });
+
+
+    /*
+    // ES search function
+    Recipe.search({
+        query_string: {
+          query: query
+        }
+      }, function(err, results) {
+        if (err) {
+            console.log('err: ' + err);
+        }
+        res.send(results);
+      });
+      */
+});
+
+// Create new recipe
+app.post('/recipe', (req, res) => {
+    console.log(JSON.stringify(req.body))
+    let recipe = new Recipe({
+        title: req.body.title,
+        url: req.body.url,
+        image: req.body.image
+    })
+    
+    recipe.save().then((doc) => {
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
 });
 
 app.get('/bonsai', (req, res) => {
@@ -181,7 +215,7 @@ app.get('/favorites/:id', (req, res) => {
 app.post('/favorite/user/:userId/recipe/:recipeId', (req, res) => {
     // user ID and recipe ID come in
     // favorite gets saved
-    // new recipe object goes back
+    // new user object goes back
 
     let userId = req.params.userId;
     let recipeId = req.params.recipeId;
@@ -194,6 +228,29 @@ app.post('/favorite/user/:userId/recipe/:recipeId', (req, res) => {
             res.status(400).send(e);
         })
     })
+});
+
+app.delete('/favorite/user/:userId/recipe/:recipeId', (req, res) => {
+    console.log('removing favorite');
+    // user ID and recipe ID come in
+    // recipe gets removed from favorites
+    // new user object goes back
+
+    let userId = req.params.userId;
+    let recipeId = req.params.recipeId;
+
+    User.findById(userId).then((user) => {
+        //user.favorites.push(recipeId);
+        let index = user.favorites.indexOf(recipeId);
+        user.favorites.splice(index, 1);
+
+        user.save().then((doc) => {
+            res.send(doc);
+        }, (e) => {
+            res.status(400).send(e);
+        })
+    });
+
 });
 
 // Bunny routes
@@ -226,4 +283,10 @@ app.get('/bunny/:query', (req, res) => {
         }
         res.send(results);
       });
+})
+
+// Schema routes
+
+app.get('/jocb', (req, res) => {
+    schedule;
 })
