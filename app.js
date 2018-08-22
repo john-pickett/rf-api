@@ -35,7 +35,7 @@ app.use(bodyParser.json());
 
 app.listen(port, () => {
     console.log(`Started up at ${port}`);
-    // jocb.jocb.crawl();
+    jocb.jocb.crawl();
     // console.log(jocb)
 })
 
