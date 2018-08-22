@@ -53,7 +53,7 @@ const crawl = () => {
                 console.log('    Completed items: %d', count);
             });
             console.log('    Items in queue: ' + crawler.queue.length);
-            const timeElapsed = crawlPause.getTime() - crawlStart.getTime();
+            const timeElapsed = new Date().getTime() - crawlStart.getTime();
             console.log('Minutes elapsed: ' + Math.floor(timeElapsed / 60000));
             console.log('Total Recipes Found: ' + totalRecipesFound);
         }
