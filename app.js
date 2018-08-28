@@ -33,11 +33,59 @@ const port = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
 
+const recipeSites = [
+    {
+        title: 'Just One Cookbook',
+        url: 'https://www.justonecookbook.com'
+    },
+    {
+        title: 'Macheesmo',
+        url: 'https://www.macheesmo.com'
+    },
+    {
+        title: 'Yellow Bliss Road',
+        url: 'https://www.yellowblissroad.com/'
+    },
+    {
+        title: 'Bread, Booze, and Bacon',
+        url: 'https://breadboozebacon.com/'
+    },
+    {
+        title: 'Onion Rings, and Things',
+        url: 'https://www.onionringsandthings.com/'
+    }
+]
 app.listen(port, () => {
     console.log(`Started up at ${port}`);
-    // jocb.jocb.crawl();
-    // console.log(jocb)
-})
+
+    // this should probably be refactored/improved
+    jocb.methods.crawler(recipeSites[0]).then(() => {
+        jocb.methods.crawler(recipeSites[1]).then(() => {
+            jocb.methods.crawler(recipeSites[2]).then(() => {
+                jocb.methods.crawler(recipeSites[3]).then(() => {
+                    jocb.methods.crawler(recipeSites[4]).then(() => {
+                        console.log('done!')
+                    })
+                })
+            })
+        })
+    });
+});
+
+
+/*
+    for (let i = 0; i < recipeSites.length;) {
+        console.log('for loop running');
+        jocb.methods.crawler(recipeSites[i]).then(() => {
+            i++;
+        })
+    }
+    // jocb.methods.crawler().then(() => {
+    //     console.log('second method starting');
+    // });
+
+});
+*/
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

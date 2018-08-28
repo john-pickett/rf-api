@@ -3,6 +3,9 @@ var mongoose = require('mongoose');
 var Site = mongoose.model('Site', {
     title: {
         type: String
+    },
+    url: {
+        type: String
     }
 });
 
